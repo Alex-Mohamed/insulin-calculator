@@ -2,54 +2,63 @@
 # along with how much needs to be ordered, based on user input.
 
 # Stores brand information in the form (name, form, concentration, mL per box)
-insulin_list = [("Lantis", "pen", 100, 15.0), ("Lantis", "vial", 100, 10.0),
-                ("Basaglar", "pen", 100, 15.0), ("Levemir", "pen", 100, 15.0),
-                ("Levemir", "vial", 100, 10.0), ("Toujeo", "pen", 300, 4.5),
-                ("Toujeo", "max pen", 300, 6.0), 
+insulin_list = [("lantus", "pen", 100, 15.0), ("lantus", "vial", 100, 10.0),
+                ("basaglar", "pen", 100, 15.0), ("levemir", "pen", 100, 15.0),
+                ("levemir", "vial", 100, 10.0), ("toujeo", "pen", 300, 4.5),
+                ("toujeo", "max pen", 300, 6.0), 
                 
-                ("Humalog", "pen", 100, 15.0), ("Humalog", "pen", 200, 6.0), 
-                ("Humalog", "vial", 100, 10.0), ("Lyumjev", "pen", 100, 15.0),
-                ("Lyumjev", "pen", 200, 6.0), ("Lyumjev", "vial", 100, 10.0),
-                ("Admelog", "pen", 100, 15.0), ("Admelog", "vial", 100, 10.0),
-                ("NovoLog", "pen", 100, 15.0), ("NovoLog", "vial", 100, 10.0),
-                ("Flasp", "pen", 100, 15.0), ("Flasp", "vial", 100, 10.0),
-                ("Apidra", "pen", 100, 15.0), ("Apidra", "vial", 100, 10.0),
+                ("humalog", "pen", 100, 15.0), ("humalog", "pen", 200, 6.0), 
+                ("humalog", "vial", 100, 10.0), ("lyumjev", "pen", 100, 15.0),
+                ("lyumjev", "pen", 200, 6.0), ("lyumjev", "vial", 100, 10.0),
+                ("admelog", "pen", 100, 15.0), ("admelog", "vial", 100, 10.0),
+                ("novolog", "pen", 100, 15.0), ("novolog", "vial", 100, 10.0),
+                ("fiasp", "pen", 100, 15.0), ("fiasp", "vial", 100, 10.0),
+                ("apidra", "pen", 100, 15.0), ("apidra", "vial", 100, 10.0),
                 
-                ("Humulin R", "vial", 500, 20.0), ("Humulin R", "pen", 500, 6.0),
+                ("u500", "vial", 500, 20.0), ("u500", "pen", 500, 6.0),
                 
-                ("Tresiba", "pen", 100, 15.0), ("Tresiba", "pen", 200, 9.0),
-                ("Tresiba", "vial", 100, 10.0),
+                ("tresiba", "pen", 100, 15.0), ("tresiba", "pen", 200, 9.0),
+                ("tresiba", "vial", 100, 10.0),
                 
-                ("Semglee", "pen", 100, 15.0), ("Semglee", "vial", 100, 10.0)]
+                ("semglee", "pen", 100, 15.0), ("semglee", "vial", 100, 10.0)]
 
+print("DIRECTIONS: Enter the data as requested below. Type 'stop' to end the program when " \
+      "prompted for the brand or form of insulin.\n")
+
+# The infinite loop below only ends when 'stop' is entered for 'brand' or 'form'
+while True:
 # Gathers user input needed for calculations
-user_insulin_info = None
-while user_insulin_info == None: # Ensures valid input is provided
-    brand = input("Enter the insulin brand (ex: Lantis): ")
-    form = input("Enter 'pen', 'max pen', or 'vial' for the insulin form desired: ")
-    conc = int(input("Enter the desired concentration in mL (ex: 100): "))
-    num_days = int(input("Enter '30' or '90' for desired per-day supply: "))
-    units_per_day = int(input('Enter the units per day needed: '))
+    user_insulin_info = None
+    while user_insulin_info == None: # Ensures valid input is provided
+        brand = input("Enter the insulin brand (ex: Lantus): ").lower()
+        form = input("Enter 'pen', 'max pen', or 'vial' for the insulin form desired: ").lower()
 
-    # Finds and stores the tuple with the information needed
-    for item in insulin_list:
-        if item[0] == brand and item[1] == form and item[2] == conc:
-            user_insulin_info = item
-            break
-    if user_insulin_info == None: # Checks for invalid input
-        print("No information found based on user input. Please input valid data.")
+        if brand == 'stop' or form == 'stop': # checks if the program should be stopped
+            exit
 
-# Calculates amount of insulin needed (prints to user)
-insulin_amount = (units_per_day * num_days) / user_insulin_info[2]
-print(f"\nThe amount of insulin needed is {insulin_amount} mL")
+        conc = int(input("Enter the desired concentration in mL (ex: 100): "))
+        num_days = int(input("Enter '30' or '90' for desired per-day supply: "))
+        units_per_day = int(input('Enter the units per day needed: '))
 
-# Determines the amount of insulin to order based on mL per box (prints to user)
-found = False
-mult_counter = 1
-while not found:
-    if insulin_amount <= (user_insulin_info[3] * mult_counter):
-        found = True
-        order_amount = user_insulin_info[3] * mult_counter
-    else:
-        mult_counter += 1
-print(f"The amount of insulin that needs to be ordered is {order_amount} mL")
+        # Finds and stores the tuple with the information needed
+        for item in insulin_list:
+            if item[0] == brand and item[1] == form and item[2] == conc:
+                user_insulin_info = item
+                break
+        if user_insulin_info == None: # Checks for invalid input
+            print("No information found based on user input. Please input valid data.\n")
+
+    # Calculates amount of insulin needed (prints to user)
+    insulin_amount = (units_per_day * num_days) / user_insulin_info[2]
+    print(f"\nThe amount of insulin needed is {insulin_amount} mL")
+
+    # Determines the amount of insulin to order based on mL per box (prints to user)
+    found = False
+    mult_counter = 1
+    while not found:
+        if insulin_amount <= (user_insulin_info[3] * mult_counter):
+            found = True
+            order_amount = user_insulin_info[3] * mult_counter
+        else:
+            mult_counter += 1
+    print(f"The amount of insulin that needs to be ordered is {order_amount} mL")
