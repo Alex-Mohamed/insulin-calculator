@@ -23,19 +23,16 @@ insulin_list = [("lantus", "pen", 100, 15.0), ("lantus", "vial", 100, 10.0),
                 ("semglee", "pen", 100, 15.0), ("semglee", "vial", 100, 10.0)]
 
 print("DIRECTIONS: Enter the data as requested below. Type 'stop' to end the program when " \
-      "prompted for the brand or form of insulin.\n")
+      "prompted for the brand of insulin.\n")
 
-# The infinite loop below only ends when 'stop' is entered for 'brand' or 'form'
+# The infinite loop below only ends when 'stop' is entered for 'brand'
 while True:
 # Gathers user input needed for calculations
     user_insulin_info = None
     while user_insulin_info == None: # Ensures valid input is provided
-        brand = input("Enter the insulin brand (ex: Lantus): ").lower()
+        brand = input("\nEnter the insulin brand (ex: Lantus): ").lower()
+        if brand == 'stop': exit()
         form = input("Enter 'pen', 'max pen', or 'vial' for the insulin form desired: ").lower()
-
-        if brand == 'stop' or form == 'stop': # checks if the program should be stopped
-            exit
-
         conc = int(input("Enter the desired concentration in mL (ex: 100): "))
         num_days = int(input("Enter '30' or '90' for desired per-day supply: "))
         units_per_day = int(input('Enter the units per day needed: '))
@@ -46,7 +43,7 @@ while True:
                 user_insulin_info = item
                 break
         if user_insulin_info == None: # Checks for invalid input
-            print("No information found based on user input. Please input valid data.\n")
+            print("No information found based on user input. Please input valid data.")
 
     # Calculates amount of insulin needed (prints to user)
     insulin_amount = (units_per_day * num_days) / user_insulin_info[2]
